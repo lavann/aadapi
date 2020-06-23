@@ -7,13 +7,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Dentsu.Aegis.Api
 {
     public class Startup
     {
-        readonly string AppCors = "AppCorsPolicy";
-        
+                
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,21 +27,16 @@ namespace Dentsu.Aegis.Api
           
             services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme).AddAzureADBearer(options => Configuration.Bind("AzureAD", options));
 
-                      
+            // By default, the claims mapping will map claim names in the old format to accommodate older SAML applications.
+            // 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' instead of 'roles'
+            // This flag ensures that the ClaimsIdentity claims collection will be built from the claims in the token
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = true;
+
+            services.AddCors();
+
             services.AddControllers();
 
-            var WebAppUri = Configuration.GetValue<string>("ServiceUrlConfiguration:WebUrl");
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: AppCors, policyBuilder =>
-                {
-                    policyBuilder.AllowAnyOrigin()
-                                .AllowAnyMethod()
-                                .AllowAnyHeader();
-                });
-            });
-
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,11 +48,16 @@ namespace Dentsu.Aegis.Api
             }
 
             //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-3.0#middleware-order
-            app.UseHttpsRedirection();
-          
+            app.UseHttpsRedirection();          
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseCors(AppCors);
+            app.UseCors(options =>
+            {
+                options.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                        
+            });
+            app.UseAuthentication();            
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

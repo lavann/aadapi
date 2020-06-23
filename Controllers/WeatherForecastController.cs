@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Dentsu.Aegis.Api.Controllers
 {
@@ -31,12 +32,18 @@ namespace Dentsu.Aegis.Api.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             var user = User.Claims;
+
+            var groups = User.Claims.Where(c => c.Type == "groups").Select( c=> c.Value).ToList();
+
+            
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary = Summaries[rng.Next(Summaries.Length)],
+                SecurityGroup = groups
+                                
             })
             .ToArray();
         }
