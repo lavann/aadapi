@@ -2,15 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Dentsu.Aegis.Api.Controllers
 {
-    [ApiController]
-    [Authorize]
-    //[Authorize(AuthenticationSchemes = AzureADDefaults.BearerAuthenticationScheme)] //Will return 401 without Scheme
+    [ApiController]    
     [Authorize]
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -29,23 +25,59 @@ namespace Dentsu.Aegis.Api.Controllers
 
         [Route("current")]
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
             var user = User.Claims;
 
             var groups = User.Claims.Where(c => c.Type == "groups").Select( c=> c.Value).ToList();
-
-            
+            var userName = User.Claims.Where(c => c.Type == "name").Select(c => c.Value).FirstOrDefault();
+           // SecurityGroup = groups
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var forecasts =  Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)],
-                SecurityGroup = groups
-                                
+                                              
             })
             .ToArray();
+
+            return Ok(new
+            {
+                User = userName
+                ,
+                SecurityGroup = groups
+                ,Forcasts = forecasts
+            });
+        }
+
+        [Route("admin")]
+        [Authorize("DensuAegisReportsAdmin")]
+        public IActionResult GetForcastsForAdmin()
+        {
+            var user = User.Claims;
+
+            var groups = User.Claims.Where(c => c.Type == "groups").Select(c => c.Value).ToList();
+            var userName = User.Claims.Where(c => c.Type == "name").Select(c => c.Value).FirstOrDefault();
+            // SecurityGroup = groups
+            var rng = new Random();
+            var forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)],
+
+            })
+            .ToArray();
+
+            return Ok(new
+            {
+                User = userName
+                ,
+                SecurityGroup = groups
+                ,
+                Forcasts = forecasts
+            });
         }
     }
 }

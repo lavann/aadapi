@@ -27,15 +27,17 @@ namespace Dentsu.Aegis.Api
           
             services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme).AddAzureADBearer(options => Configuration.Bind("AzureAD", options));
 
-            // By default, the claims mapping will map claim names in the old format to accommodate older SAML applications.
-            // 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' instead of 'roles'
-            // This flag ensures that the ClaimsIdentity claims collection will be built from the claims in the token
-            JwtSecurityTokenHandler.DefaultMapInboundClaims = true;
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DensuAegisReportsAdmin", policyBuilder =>
+                {
+                    policyBuilder.RequireClaim("groups", "ebde25e7-d254-474e-ae33-cd491aa98ebf"); //This would be an environment variable
+                });
+            });
 
             services.AddCors();
 
             services.AddControllers();
-
             
         }
 
