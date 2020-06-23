@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.AzureAD.UI;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,6 +10,7 @@ namespace Dentsu.Aegis.Api.Controllers
     [ApiController]
     [Authorize]
     //[Authorize(AuthenticationSchemes = AzureADDefaults.BearerAuthenticationScheme)] //Will return 401 without Scheme
+    [Authorize]
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {

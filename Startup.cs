@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Builder;
@@ -12,7 +13,7 @@ namespace Dentsu.Aegis.Api
     public class Startup
     {
         readonly string AppCors = "AppCorsPolicy";
-        readonly string CorsDomains = "http://localhost:4200";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,22 +26,22 @@ namespace Dentsu.Aegis.Api
         {
           
             services.AddAuthentication(AzureADDefaults.BearerAuthenticationScheme).AddAzureADBearer(options => Configuration.Bind("AzureAD", options));
-            services.AddAuthorization();
 
-            string[] domains = CorsDomains.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                      
+            services.AddControllers();
+
+            var WebAppUri = Configuration.GetValue<string>("ServiceUrlConfiguration:WebUrl");
             services.AddCors(options =>
             {
                 options.AddPolicy(name: AppCors, policyBuilder =>
                 {
-                    policyBuilder.WithOrigins(domains)
+                    policyBuilder.AllowAnyOrigin()
                                 .AllowAnyMethod()
                                 .AllowAnyHeader();
                 });
             });
 
-            services.AddControllers();
 
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,21 +52,18 @@ namespace Dentsu.Aegis.Api
                 app.UseDeveloperExceptionPage();
             }
 
-        
+            //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-3.0#middleware-order
             app.UseHttpsRedirection();
-
+          
             app.UseRouting();
-
-            app.UseCors(AppCors);
-
-            app.UseAuthorization();
             app.UseAuthentication();
-
+            app.UseCors(AppCors);
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-           
+            
         }
     }
 }
