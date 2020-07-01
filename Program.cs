@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Dentsu.Aegis.Api
+namespace Aad.Ng.Api
 {
     public class Program
     {

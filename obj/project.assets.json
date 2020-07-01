@@ -3650,11 +3650,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lavan\\git\\mvp\\dentsu-aegis\\Dentsu.Aegis.Api\\Dentsu.Aegis.Api.csproj",
-      "projectName": "Dentsu.Aegis.Api",
-      "projectPath": "C:\\Users\\Lavan\\git\\mvp\\dentsu-aegis\\Dentsu.Aegis.Api\\Dentsu.Aegis.Api.csproj",
+      "projectUniqueName": "D:\\MSFT\\aad.ng.api\\Aad.Ng.Api.csproj",
+      "projectName": "Aad.Ng.Api",
+      "projectPath": "D:\\MSFT\\aad.ng.api\\Aad.Ng.Api.csproj",
       "packagesPath": "C:\\Users\\Lavan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lavan\\git\\mvp\\dentsu-aegis\\Dentsu.Aegis.Api\\obj\\",
+      "outputPath": "D:\\MSFT\\aad.ng.api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

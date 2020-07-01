@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
-namespace Dentsu.Aegis.Api.Controllers
+namespace Aad.Ng.Api.Controllers
 {
     [ApiController]    
     [Authorize]
@@ -27,10 +27,10 @@ namespace Dentsu.Aegis.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var user = User.Claims;
+            var user = User.Claims; //we can get the current context of the user and retrieve information from the bearer token
 
-            var groups = User.Claims.Where(c => c.Type == "groups").Select( c=> c.Value).ToList();
-            var userName = User.Claims.Where(c => c.Type == "name").Select(c => c.Value).FirstOrDefault();
+            var groups = User.Claims.Where(c => c.Type == "groups").Select( c=> c.Value).ToList(); //security group
+            var userName = User.Claims.Where(c => c.Type == "unique_name").Select(c => c.Value).FirstOrDefault(); 
            // SecurityGroup = groups
             var rng = new Random();
             var forecasts =  Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -45,20 +45,19 @@ namespace Dentsu.Aegis.Api.Controllers
             return Ok(new
             {
                 User = userName
-                ,
-                SecurityGroup = groups
+                ,SecurityGroup = groups
                 ,Forcasts = forecasts
             });
         }
 
         [Route("admin")]
-        [Authorize("DensuAegisReportsAdmin")]
+        [Authorize("AdminGroup")]
         public IActionResult GetForcastsForAdmin()
         {
             var user = User.Claims;
 
             var groups = User.Claims.Where(c => c.Type == "groups").Select(c => c.Value).ToList();
-            var userName = User.Claims.Where(c => c.Type == "name").Select(c => c.Value).FirstOrDefault();
+            var userName = User.Claims.Where(c => c.Type == "unique_name").Select(c => c.Value).FirstOrDefault();
             // SecurityGroup = groups
             var rng = new Random();
             var forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -73,10 +72,8 @@ namespace Dentsu.Aegis.Api.Controllers
             return Ok(new
             {
                 User = userName
-                ,
-                SecurityGroup = groups
-                ,
-                Forcasts = forecasts
+                ,SecurityGroup = groups
+                ,Forcasts = forecasts
             });
         }
     }

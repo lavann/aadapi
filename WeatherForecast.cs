@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Dentsu.Aegis.Api
+namespace Aad.Ng.Api
 {
     public class WeatherForecast
     {

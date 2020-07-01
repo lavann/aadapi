@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LOstZiLtjYGCsZGits3k2ACQ8dYlYBzlVqNV9Dyh23J5eLGhpY0pAIdVoOSt/va2VuVndyUunYmG3KUX33t+FA==",
+  "dgSpecHash": "h5w3eyZ/C30lYvWFoRSxZaKOQr11k2VnlCNwc11wBO1EmB2YyumUIfxkg6AyfkUpma3Y/2YUQ9nLbWDrOTNPDQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lavan\\git\\mvp\\dentsu-aegis\\Dentsu.Aegis.Api\\Dentsu.Aegis.Api.csproj",
+  "projectFilePath": "D:\\MSFT\\aad.ng.api\\Aad.Ng.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lavan\\.nuget\\packages\\microsoft.aspnetcore.authentication.azuread.ui\\3.1.5\\microsoft.aspnetcore.authentication.azuread.ui.3.1.5.nupkg.sha512",
     "C:\\Users\\Lavan\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.5\\microsoft.aspnetcore.authentication.jwtbearer.3.1.5.nupkg.sha512",

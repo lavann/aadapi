@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Builder;
@@ -6,10 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Dentsu.Aegis.Api
+namespace Aad.Ng.Api
 {
     public class Startup
     {
@@ -29,12 +27,13 @@ namespace Dentsu.Aegis.Api
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("DensuAegisReportsAdmin", policyBuilder =>
+                options.AddPolicy("AdminGroup", policyBuilder =>
                 {
-                    policyBuilder.RequireClaim("groups", "ebde25e7-d254-474e-ae33-cd491aa98ebf"); //This would be an environment variable
+                    policyBuilder.RequireClaim("groups", "Replace me with relevant guid"); //This guid for SG unique to your tenant would be an environment variable
                 });
             });
 
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
             services.AddCors();
 
             services.AddControllers();

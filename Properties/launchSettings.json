@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Dentsu.Aegis.Api": {
+    "Aad.Ng.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/weatherforecast/current",
